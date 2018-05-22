@@ -9,22 +9,71 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txt_magnitude_view"
-        tools:text="1.0"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/magnitude_circle"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        tools:text="8.9"
         android:padding="16dp"/>
 
-    <TextView
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/txt_place_view"
+        android:orientation="vertical"
         android:layout_weight="1"
-        android:paddingLeft="16dp"
-        tools:text="New York" />
+        android:padding="16dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_secondary_place_view"
+            android:fontFamily="sans-sarif-medium"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAllCaps="true"
+            android:textColor="@color/textColorDetails"
+            android:textSize="12sp"
+            tools:text="123 km of" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txt_time_view"
-        android:padding="16dp"
-        tools:text="May 3, 2011" />
+        android:id="@+id/txt_primary_place_view"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/textColorPlacePrimary"
+        android:textSize="16sp"
+        tools:text="New York" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_date_view"
+            android:textColor="@color/textColorDetails"
+            android:textSize="12sp"
+            tools:text="May 3, 2011" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_time_view"
+            android:textColor="@color/textColorDetails"
+            android:textSize="12sp"
+            tools:text="12:00 PM" />
+
+
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

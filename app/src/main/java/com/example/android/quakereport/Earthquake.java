@@ -1,35 +1,34 @@
 package com.example.android.quakereport;
 
-import android.text.format.DateFormat;
 
-import java.util.Calendar;
-import java.util.Locale;
 
 class Earthquake {
 
     private final double mMagnitude;
     private final String mPlace;
-    private final long mTime;
+    private final long mDateTime;
+    private final String mUrl;
 
-    Earthquake(double magnitude, String place, long time){
+    Earthquake(double magnitude, String place, long dateTime, String url){
         mMagnitude = magnitude;
         mPlace = place;
-        mTime = time;
+        mDateTime = dateTime;
+        mUrl = url;
     }
 
-    public String getmMagnitude() {
-        String mMagnitudeS = String.valueOf(mMagnitude);
-        return mMagnitudeS;
+    public Double getmMagnitude() {
+        return mMagnitude;
     }
 
     public String getmPlace() {
         return mPlace;
     }
 
-    public String getmTime() {
-        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-        cal.setTimeInMillis(mTime);
-        String mTimeS = DateFormat.format("MMM dd, yyyy", cal).toString();
-        return mTimeS;
+    public long getmDateTime(){
+        return mDateTime;
+    }
+
+    public String getmUrl() {
+        return mUrl;
     }
 }
