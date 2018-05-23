@@ -24,41 +24,44 @@ import static android.support.v4.content.ContextCompat.startActivity;
 
 
 class EarthquakeAdaptor extends ArrayAdapter {
-    public EarthquakeAdaptor(@NonNull Context context, int resource, @NonNull ArrayList<Earthquake> earthquakes) {
-        super(context, resource, earthquakes);
+    //public EarthquakeAdaptor(@NonNull Context context, int resource, @NonNull ArrayList<Earthquake> earthquakes) {
+    //    super(context, resource, earthquakes);
+
+        public EarthquakeAdaptor(@NonNull Context context, @NonNull ArrayList<Earthquake> earthquakes) {
+            super(context, 0, earthquakes);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View listView = convertView;
-        if(listView == null){
-            listView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
+        View listItemView = convertView;
+        if(listItemView == null){
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
 
         final Earthquake currentEarthQuake = (Earthquake) getItem(position);
 
 
 
-        TextView textMagnitudeView = listView.findViewById(R.id.txt_magnitude_view);
+        TextView textMagnitudeView = listItemView.findViewById(R.id.txt_magnitude_view);
         textMagnitudeView.setText(formatMagnitude(currentEarthQuake.getmMagnitude()));
         GradientDrawable magnitudeCircle = (GradientDrawable) textMagnitudeView.getBackground();
         int magnitudeColor = getMagnitudeColor(currentEarthQuake.getmMagnitude());
         magnitudeCircle.setColor(magnitudeColor);
 
-        TextView textSecondaryPlaceView = listView.findViewById(R.id.txt_secondary_place_view);
+        TextView textSecondaryPlaceView = listItemView.findViewById(R.id.txt_secondary_place_view);
         textSecondaryPlaceView.setText(getSecondaryPlace(currentEarthQuake.getmPlace()));
 
-        TextView textPrimaryPlaceView = listView.findViewById(R.id.txt_primary_place_view);
+        TextView textPrimaryPlaceView = listItemView.findViewById(R.id.txt_primary_place_view);
         textPrimaryPlaceView.setText(getPrimaryPlace(currentEarthQuake.getmPlace()));
 
-        TextView textDateView = listView.findViewById(R.id.txt_date_view);
+        TextView textDateView = listItemView.findViewById(R.id.txt_date_view);
         textDateView.setText(getDate(currentEarthQuake.getmDateTime()));
 
-        TextView textTimeView = listView.findViewById(R.id.txt_time_view);
+        TextView textTimeView = listItemView.findViewById(R.id.txt_time_view);
         textTimeView.setText(getTime(currentEarthQuake.getmDateTime()));
 
-        return listView;
+        return listItemView;
     }
 
     private String formatMagnitude (double magnitude){

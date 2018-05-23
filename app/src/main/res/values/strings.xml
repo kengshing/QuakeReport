@@ -15,4 +15,6 @@
 -->
 <resources>
     <string name="app_name">Quake Report</string>
+    <string name="usgs_request_url_recent">https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&amp;orderby=time&amp;minmag=6&amp;limit=10</string>
+    <string name="usgs_request_url_since2000">https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&amp;orderby=magnitude&amp;minmag=6&amp;starttime=2000-01-01&amp;limit=10</string>
 </resources>
