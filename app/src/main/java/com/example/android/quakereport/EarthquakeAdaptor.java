@@ -1,8 +1,6 @@
 package com.example.android.quakereport;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -16,32 +14,24 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import android.graphics.drawable.GradientDrawable;
-import android.widget.ListView;
 
-import static android.support.v4.content.ContextCompat.startActivity;
+import android.graphics.drawable.GradientDrawable;
 
 
 class EarthquakeAdaptor extends ArrayAdapter {
-    //public EarthquakeAdaptor(@NonNull Context context, int resource, @NonNull ArrayList<Earthquake> earthquakes) {
-    //    super(context, resource, earthquakes);
-
-        public EarthquakeAdaptor(@NonNull Context context, @NonNull ArrayList<Earthquake> earthquakes) {
-            super(context, 0, earthquakes);
+    public EarthquakeAdaptor(@NonNull Context context, @NonNull ArrayList<Earthquake> earthquakes) {
+        super(context, 0, earthquakes);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItemView = convertView;
-        if(listItemView == null){
+        if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
 
         final Earthquake currentEarthQuake = (Earthquake) getItem(position);
-
-
 
         TextView textMagnitudeView = listItemView.findViewById(R.id.txt_magnitude_view);
         textMagnitudeView.setText(formatMagnitude(currentEarthQuake.getmMagnitude()));
@@ -64,16 +54,16 @@ class EarthquakeAdaptor extends ArrayAdapter {
         return listItemView;
     }
 
-    private String formatMagnitude (double magnitude){
+    private String formatMagnitude(double magnitude) {
         DecimalFormat magnitudeFormat = new DecimalFormat("0.0");
         return magnitudeFormat.format(magnitude);
     }
 
     private String getPrimaryPlace(String place) {
-        if (place.contains("of")){
+        if (place.contains("of")) {
             int stringLength = place.length();
-            int splitIndex = place.indexOf("of")+3;
-            String mPrimaryPlace = place.substring(splitIndex,stringLength);
+            int splitIndex = place.indexOf("of") + 3;
+            String mPrimaryPlace = place.substring(splitIndex, stringLength);
             return mPrimaryPlace;
         } else {
             return place;
@@ -93,14 +83,12 @@ class EarthquakeAdaptor extends ArrayAdapter {
     private String getTime(long dateTime) {
         Date dateObject = new Date(dateTime);
         String mTime = formatTime(dateObject);
-        //String mTimeS = String.valueOf(mTime);
         return mTime;
     }
 
     private String getDate(long dateTime) {
         Date dateObject = new Date(dateTime);
         String mDate = formatDate(dateObject);
-        //String mTimeS = String.valueOf(mTime);
         return mDate;
     }
 
@@ -159,9 +147,6 @@ class EarthquakeAdaptor extends ArrayAdapter {
                 magnitudeColorResourceId = R.color.magnitude10plus;
                 break;
         }
-        return ContextCompat.getColor(getContext(),magnitudeColorResourceId);
+        return ContextCompat.getColor(getContext(), magnitudeColorResourceId);
     }
-
-
-
 }
