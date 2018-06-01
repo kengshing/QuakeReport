@@ -18,7 +18,30 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:id="@+id/toolbar_view"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_view"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp">
+            </Spinner>
+
+        </android.support.v7.widget.Toolbar>
 
     <ListView
     android:id="@+id/list"
@@ -26,7 +49,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:divider="@null"
-    android:dividerHeight="0dp"/>
+    android:dividerHeight="0dp"
+    android:layout_below="@id/toolbar_view"/>
 
     <TextView
         android:layout_width="match_parent"

@@ -23,6 +23,9 @@
     <!-- Accent color of the app -->
     <color name="colorAccent">#10CAC9</color>
 
+    <!-- Text color for Quake type spinner -->
+    <color name="colorQuakeType">#FF8888</color>
+
     <!-- Color for an earthquake with magnitude 0 and 2 -->
     <color name="magnitude1">#4A7BA7</color>
 

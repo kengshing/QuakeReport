@@ -23,10 +23,14 @@ import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.net.ConnectivityManager;
 
@@ -45,11 +49,81 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
     private EarthquakeAdaptor mAdapter;
 
+    Toolbar mainToolbar;
+    Spinner mainSpinner;
+    String usgsRequestUrl;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.earthquake_activity);
+
+       mainToolbar = findViewById(R.id.toolbar_view);
+       mainSpinner = findViewById(R.id.spinner_view);
+
+
+       if (mainToolbar != null){
+
+           setSupportActionBar(mainToolbar);
+           mainToolbar.setTitle(R.string.app_name);
+       } else {
+           Log.e(LOG_TAG, "mainToolbar is null");
+       }
+
+      ArrayAdapter<String> spinnerAdaptor = new ArrayAdapter<String>(EarthquakeActivity.this,R.layout.spinner_text_layoout,getResources().getStringArray(R.array.quake_type));
+     spinnerAdaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      mainSpinner.setAdapter(spinnerAdaptor);
+
+      mainSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+          @Override
+          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+          }
+
+          @Override
+          public void onNothingSelected(AdapterView<?> parent) {
+
+          }
+      });
+
+        usgsRequestUrl = getString(R.string.usgs_request_url_since2000);
+       refreshScreen();
+
+        }
+
+    @Override
+    public android.content.Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
+        //usgsRequestUrl = getString(R.string.usgs_request_url_since2000);
+        return new EarthquakeLoader(this, usgsRequestUrl);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Earthquake>> loader) {
+        mAdapter.clear();
+    }
+
+    @Override
+    public void onLoadFinished(android.content.Loader<List<Earthquake>> loader, List<Earthquake> data) {
+
+        TextView listEmptyView = findViewById(R.id.list_empty_view);
+        listEmptyView.setText(R.string.no_earthquake_message);
+        ProgressBar listProgressBar = findViewById(R.id.list_progress_bar);
+        listProgressBar.setVisibility(View.GONE);
+
+        //Clear the adapter of previous earthquake data
+        mAdapter.clear();
+
+        //If there is a valid list of Earthquakes, then add them to the adapter's
+        //dataset. This will trigger the ListView update
+        if (data != null && !data.isEmpty()) {
+            mAdapter.addAll(data);
+              }
+    }
+
+    public void refreshScreen (){
+
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
         earthquakeListView.setEmptyView(findViewById(R.id.list_empty_view));
@@ -76,42 +150,13 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
         if (isConnected){
-        getLoaderManager().initLoader(0, null, this);
-    }else {
+            getLoaderManager().initLoader(0, null, this);
+        }else {
             TextView listEmptyView = findViewById(R.id.list_empty_view);
             listEmptyView.setText(R.string.no_internet_message);
             ProgressBar listProgressBar = findViewById(R.id.list_progress_bar);
             listProgressBar.setVisibility(View.GONE);
         }
 
-        }
-
-    @Override
-    public android.content.Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
-        String usgsRequestUrl = getString(R.string.usgs_request_url_since2000);
-        return new EarthquakeLoader(this, usgsRequestUrl);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Earthquake>> loader) {
-        mAdapter.clear();
-    }
-
-    @Override
-    public void onLoadFinished(android.content.Loader<List<Earthquake>> loader, List<Earthquake> data) {
-
-        TextView listEmptyView = findViewById(R.id.list_empty_view);
-        listEmptyView.setText(R.string.no_earthquake_message);
-        ProgressBar listProgressBar = findViewById(R.id.list_progress_bar);
-        listProgressBar.setVisibility(View.GONE);
-
-        //Clear the adapter of previous earthquake data
-        mAdapter.clear();
-
-        //If there is a valid list of Earthquakes, then add them to the adapter's
-        //dataset. This will trigger the ListView update
-        if (data != null && !data.isEmpty()) {
-            mAdapter.addAll(data);
-              }
     }
 }

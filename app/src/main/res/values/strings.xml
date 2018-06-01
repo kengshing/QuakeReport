@@ -20,4 +20,9 @@
     <string name="no_earthquake_message">World Peace!</string>
     <string name="loading_message">Loading...</string>
     <string name="no_internet_message">No Internet Connection!</string>
+
+    <string-array name="quake_type">
+        <item>Current</item>
+        <item>since yr 2000</item>
+    </string-array>
 </resources>
