@@ -17,6 +17,7 @@
     <string name="app_name">Quake Report</string>
     <string name="usgs_request_url_recent">https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&amp;orderby=time&amp;minmag=6&amp;limit=10</string>
     <string name="usgs_request_url_since2000">https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&amp;orderby=magnitude&amp;minmag=6&amp;starttime=2000-01-01&amp;limit=10</string>
+    <string name="usgs_request_url_test">https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&amp;orderby=time&amp;minmag=100&amp;limit=10</string>
     <string name="no_earthquake_message">World Peace!</string>
     <string name="loading_message">Loading...</string>
     <string name="no_internet_message">No Internet Connection!</string>
@@ -24,5 +25,6 @@
     <string-array name="quake_type">
         <item>Current</item>
         <item>since yr 2000</item>
+        <item>test</item>
     </string-array>
 </resources>

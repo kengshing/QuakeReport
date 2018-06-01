@@ -53,12 +53,17 @@
     android:layout_below="@id/toolbar_view"/>
 
     <TextView
+        android:id="@+id/list_empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/list_empty_view"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/list_loading_message_view"
         android:gravity="center"
         android:text="@string/loading_message"/>
-
     <ProgressBar
         android:layout_width="100dp"
         android:layout_height="100dp"
