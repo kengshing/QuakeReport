@@ -82,6 +82,10 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         mainSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                listEmptyView.setText(null);
+                listLoadingMessageView.setText(R.string.loading_message);
+                listLoadingMessageView.setVisibility(View.VISIBLE);
+                listProgressBar.setVisibility(View.VISIBLE);
 
                 switch (position) {
                     case 0:
@@ -172,6 +176,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
             //TextView listEmptyView = findViewById(R.id.list_empty_view);
             //listEmptyView.setText(R.string.no_internet_message);
             listLoadingMessageView.setText(R.string.no_internet_message);
+            listLoadingMessageView.setVisibility(View.VISIBLE);
             listProgressBar.setVisibility(View.GONE);
         }
 
