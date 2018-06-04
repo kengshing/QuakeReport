@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2016 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2016 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -12,62 +11,61 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
--->
-<!-- Layout for a list of earthquakes -->
+--><!-- Layout for a list of earthquakes -->
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:id="@+id/toolbar_view"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <Spinner
+            android:id="@+id/spinner_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner_view"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:layout_gravity="end"
             android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp">
-            </Spinner>
-
-        </android.support.v7.widget.Toolbar>
+            android:layout_marginRight="10dp"
+            android:gravity="end"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    </android.support.v7.widget.Toolbar>
 
     <ListView
-    android:id="@+id/list"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:divider="@null"
-    android:dividerHeight="0dp"
-    android:layout_below="@id/toolbar_view"/>
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_view"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:orientation="vertical" />
 
     <TextView
         android:id="@+id/list_empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"/>
+        android:gravity="center" />
 
     <TextView
+        android:id="@+id/list_loading_message_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/list_loading_message_view"
         android:gravity="center"
-        android:text="@string/loading_message"/>
+        android:text="@string/loading_message" />
+
     <ProgressBar
+        android:id="@+id/list_progress_bar"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/list_progress_bar"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

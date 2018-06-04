@@ -62,13 +62,11 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         listLoadingMessageView = findViewById(R.id.list_loading_message_view);
         listProgressBar = findViewById(R.id.list_progress_bar);
         listEmptyView = findViewById(R.id.list_empty_view);
-
         mainToolbar = findViewById(R.id.toolbar_view);
         mainSpinner = findViewById(R.id.spinner_view);
 
 
         if (mainToolbar != null) {
-
             setSupportActionBar(mainToolbar);
             mainToolbar.setTitle(R.string.app_name);
         } else {
@@ -86,26 +84,23 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
                 listLoadingMessageView.setText(R.string.loading_message);
                 listLoadingMessageView.setVisibility(View.VISIBLE);
                 listProgressBar.setVisibility(View.VISIBLE);
+                getLoaderManager().destroyLoader(0);
 
                 switch (position) {
                     case 0:
                         usgsRequestUrl = getString(R.string.usgs_request_url_recent);
-                        getLoaderManager().destroyLoader(0);
                         refreshScreen();
                         break;
                     case 1:
                         usgsRequestUrl = getString(R.string.usgs_request_url_since2000);
-                        getLoaderManager().destroyLoader(0);
                         refreshScreen();
                         break;
                     case 2:
-                        usgsRequestUrl=getString(R.string.usgs_request_url_test);
-                        getLoaderManager().destroyLoader(0);
+                        usgsRequestUrl = getString(R.string.usgs_request_url_test);
                         refreshScreen();
                         break;
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 usgsRequestUrl = getString(R.string.usgs_request_url_recent);
@@ -116,7 +111,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
     @Override
     public android.content.Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
-          return new EarthquakeLoader(this, usgsRequestUrl);
+        return new EarthquakeLoader(this, usgsRequestUrl);
     }
 
     @Override
@@ -127,7 +122,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
     @Override
     public void onLoadFinished(android.content.Loader<List<Earthquake>> loader, List<Earthquake> data) {
 
-       listEmptyView.setText(null);
+        listEmptyView.setText(null);
         listLoadingMessageView.setVisibility(View.GONE);
         listProgressBar.setVisibility(View.GONE);
 
@@ -138,7 +133,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         //dataset. This will trigger the ListView update
         if (data != null && !data.isEmpty()) {
             mAdapter.addAll(data);
-        }else {
+        } else {
             listEmptyView.setText(R.string.no_earthquake_message);
         }
     }
@@ -173,8 +168,6 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         if (isConnected) {
             getLoaderManager().initLoader(0, null, this);
         } else {
-            //TextView listEmptyView = findViewById(R.id.list_empty_view);
-            //listEmptyView.setText(R.string.no_internet_message);
             listLoadingMessageView.setText(R.string.no_internet_message);
             listLoadingMessageView.setVisibility(View.VISIBLE);
             listProgressBar.setVisibility(View.GONE);

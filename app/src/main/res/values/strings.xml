@@ -24,7 +24,7 @@
 
     <string-array name="quake_type">
         <item>Current</item>
-        <item>since yr 2000</item>
-        <item>test</item>
+        <item>Since yr 2000</item>
+        <item>Test</item>
     </string-array>
 </resources>
