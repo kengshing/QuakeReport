@@ -15,15 +15,20 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.content.Loader;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -54,6 +59,23 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
     private EarthquakeAdaptor mAdapter;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mian, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id ==R.id.action_settings){
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+            }
+            return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -62,18 +84,9 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         listLoadingMessageView = findViewById(R.id.list_loading_message_view);
         listProgressBar = findViewById(R.id.list_progress_bar);
         listEmptyView = findViewById(R.id.list_empty_view);
-        mainToolbar = findViewById(R.id.toolbar_view);
         mainSpinner = findViewById(R.id.spinner_view);
 
-
-        if (mainToolbar != null) {
-            setSupportActionBar(mainToolbar);
-            mainToolbar.setTitle(R.string.app_name);
-        } else {
-            Log.e(LOG_TAG, "mainToolbar is null");
-        }
-
-        ArrayAdapter<String> spinnerAdaptor = new ArrayAdapter<String>(EarthquakeActivity.this, R.layout.spinner_text_layoout, getResources().getStringArray(R.array.quake_type));
+        ArrayAdapter<String> spinnerAdaptor = new ArrayAdapter<String>(EarthquakeActivity.this, R.layout.spinner_text_layout, getResources().getStringArray(R.array.quake_type));
         spinnerAdaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mainSpinner.setAdapter(spinnerAdaptor);
 
@@ -88,14 +101,32 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
                 switch (position) {
                     case 0:
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(EarthquakeActivity.this);
+                        String minMagnitude = sharedPreferences.getString(
+                                getString(R.string.settings_min_magnitude_key),
+                                getString(R.string.settings_min_magnitude_default));
+                        //Log.e(LOG_TAG, "minMagnitude:" + minMagnitude);
+                        String usgsRequestUrlBase = getString(R.string.usgs_request_url_template);
+                        StringBuilder usgsRequestUrlBuilder = new StringBuilder();
+                        usgsRequestUrlBuilder.append(usgsRequestUrlBase);
+                        usgsRequestUrlBuilder.append("format=" + "geojson");
+                        usgsRequestUrlBuilder.append("&limit=" + "10");
+                        usgsRequestUrlBuilder.append("&minmag=" + minMagnitude);
+                        usgsRequestUrlBuilder.append("&orderby=" + "time");
+                        usgsRequestUrl = usgsRequestUrlBuilder.toString();
+                        //Log.e(LOG_TAG, "Custom usgsRequestUrl: " + usgsRequestUrl);
+                        refreshScreen();
+                        break;
+
+                    case 1:
                         usgsRequestUrl = getString(R.string.usgs_request_url_recent);
                         refreshScreen();
                         break;
-                    case 1:
+                    case 2:
                         usgsRequestUrl = getString(R.string.usgs_request_url_since2000);
                         refreshScreen();
                         break;
-                    case 2:
+                    case 3:
                         usgsRequestUrl = getString(R.string.usgs_request_url_test);
                         refreshScreen();
                         break;
@@ -103,7 +134,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                usgsRequestUrl = getString(R.string.usgs_request_url_recent);
+                usgsRequestUrl = getString(R.string.usgs_request_url_test);
                 refreshScreen();
             }
         });
