@@ -5,9 +5,9 @@
     tools:context="com.example.android.quakereport.EarthquakeActivity">
     <item
         android:id="@+id/spinner"
-        android:title="ActionBar Spinner"
+        android:title="@string/actionbar_spinner_item"
         app:actionViewClass="android.widget.Spinner"
-        android:background="#ff00"
+        android:background="#ffffff"
         app:showAsAction="always"/>
 
 

@@ -23,18 +23,29 @@
     <string name="no_internet_message">No Internet Connection!</string>
     <!-- Settings Menu Item [CHAR LIMIT=NONE] -->
     <string name="setting_manu_item">Settings</string>
+    <!-- Settings Spinner Item [CHAR LIMIT=NONE] -->
+    <string name="actionbar_spinner_item">Quick Access</string>
     <!-- Settings Activity Title [CHAR LIMIT=NONE] -->
     <string name="setting_title">Earthquake Settings</string>
 
     <!-- Strings For Minimum Magnitude Preference [CHAR LIMIT=30] -->
-    <string name="settings_min_magnitude_label">MinimumMagnitude</string>
+    <string name="settings_min_magnitude_label">Minimum Magnitude</string>
     <string name="settings_min_magnitude_key" translatable="false">min_marnitude</string>
     <string name="settings_min_magnitude_default" translatable="false">6</string>
 
-    <string-array name="quake_type">
-        <item>Custom</item>
-        <item>Current</item>
-        <item>Since yr 2000</item>
-        <item>Test</item>
-    </string-array>
+    <!-- Strings For Order-By Preference [CHAR LIMIT=30] -->
+    <string name="settings_order_by_label">Order By</string>
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_magnitude_value</string>
+
+    <!-- label For Order-By magnitude option [CHAR LIMIT=30] -->
+    <string name="settings_order_by_magnitude_label">Magnitude</string>
+    <string name="settings_order_by_magnitude_value" translatable="false">magnitude</string>
+
+    <!-- label For Order-By most recent option [CHAR LIMIT=30] -->
+    <string name="settings_order_by_most_recent_label">most Recent</string>
+    <string name="settings_order_by_most_recent_value" translatable="false">time</string>
+
+
+
 </resources>

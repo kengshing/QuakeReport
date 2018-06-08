@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.content.Loader;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.support.v7.widget.Toolbar;
@@ -50,6 +51,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
     TextView listLoadingMessageView;
     ProgressBar listProgressBar;
     TextView listEmptyView;
+    Spinner qASpinner;
     /**
      * URL for earthquake data from the USGS dataset
      */
@@ -61,18 +63,25 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mian, menu);
+        MenuItem item = menu.findItem(R.id.spinner);
+        qASpinner = (Spinner) item.getActionView();
+        ArrayAdapter<CharSequence> qAAdaptor = ArrayAdapter.createFromResource(this, R.array.quake_type, R.layout.spinner_text_layout);
+        qAAdaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        qASpinner.setAdapter(qAAdaptor);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id ==R.id.action_settings){
+               if (id ==R.id.action_settings){
+            Log.e(LOG_TAG, "action_settings selected");
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
             return true;
             }
-            return super.onOptionsItemSelected(item);
+           return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -101,19 +110,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
                 switch (position) {
                     case 0:
-                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(EarthquakeActivity.this);
-                        String minMagnitude = sharedPreferences.getString(
-                                getString(R.string.settings_min_magnitude_key),
-                                getString(R.string.settings_min_magnitude_default));
-                        //Log.e(LOG_TAG, "minMagnitude:" + minMagnitude);
-                        String usgsRequestUrlBase = getString(R.string.usgs_request_url_template);
-                        StringBuilder usgsRequestUrlBuilder = new StringBuilder();
-                        usgsRequestUrlBuilder.append(usgsRequestUrlBase);
-                        usgsRequestUrlBuilder.append("format=" + "geojson");
-                        usgsRequestUrlBuilder.append("&limit=" + "10");
-                        usgsRequestUrlBuilder.append("&minmag=" + minMagnitude);
-                        usgsRequestUrlBuilder.append("&orderby=" + "time");
-                        usgsRequestUrl = usgsRequestUrlBuilder.toString();
+                        usgsRequestUrl = setCustomUrl();
                         //Log.e(LOG_TAG, "Custom usgsRequestUrl: " + usgsRequestUrl);
                         refreshScreen();
                         break;
@@ -139,6 +136,26 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
             }
         });
     }
+
+    public String setCustomUrl(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(EarthquakeActivity.this);
+        String minMagnitude = sharedPreferences.getString(
+                getString(R.string.settings_min_magnitude_key),
+                getString(R.string.settings_min_magnitude_default));
+        String orderBy = sharedPreferences.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+        );
+        //Log.e(LOG_TAG, "minMagnitude:" + minMagnitude + "  orderBy: " + orderBy);
+        String usgsRequestUrlBase = getString(R.string.usgs_request_url_template);
+        StringBuilder usgsRequestUrlBuilder = new StringBuilder();
+        usgsRequestUrlBuilder.append(usgsRequestUrlBase);
+        usgsRequestUrlBuilder.append("format=" + "geojson");
+        usgsRequestUrlBuilder.append("&limit=" + "10");
+        usgsRequestUrlBuilder.append("&minmag=" + minMagnitude);
+        usgsRequestUrlBuilder.append("&orderby=" + orderBy);
+        return usgsRequestUrlBuilder.toString();
+       };
 
     @Override
     public android.content.Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
