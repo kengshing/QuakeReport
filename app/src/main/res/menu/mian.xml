@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.android.quakereport.EarthquakeActivity">
     <item
-        android:id="@+id/spinner"
+        android:id="@+id/action_qa"
         android:title="@string/actionbar_spinner_item"
         app:actionViewClass="android.widget.Spinner"
         android:background="#ffffff"
@@ -15,7 +15,6 @@
         android:id="@+id/action_settings"
         android:title="@string/setting_manu_item"
         android:icon="@drawable/ic_filter"
-        android:orderInCategory="1"
         app:showAsAction="ifRoom"/>
 
 </menu>

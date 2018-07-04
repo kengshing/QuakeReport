@@ -5,9 +5,11 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.support.v7.widget.Toolbar;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -15,6 +17,13 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        Toolbar settingToobar = findViewById(R.id.settings_toolbar);
+        setSupportActionBar(settingToobar);
+        ActionBar settingActionBar = getSupportActionBar();
+        if(settingActionBar !=null){
+            settingActionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     public static class EarthquakePreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {

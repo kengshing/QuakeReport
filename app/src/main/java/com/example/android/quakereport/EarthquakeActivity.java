@@ -15,7 +15,6 @@
  */
 package com.example.android.quakereport;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.NetworkInfo;
@@ -23,7 +22,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.content.Loader;
 import android.preference.PreferenceManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.support.v7.widget.Toolbar;
@@ -60,46 +58,36 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
     private EarthquakeAdaptor mAdapter;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.mian, menu);
-        MenuItem item = menu.findItem(R.id.spinner);
-        qASpinner = (Spinner) item.getActionView();
-        ArrayAdapter<CharSequence> qAAdaptor = ArrayAdapter.createFromResource(this, R.array.quake_type, R.layout.spinner_text_layout);
-        qAAdaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        qASpinner.setAdapter(qAAdaptor);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-               if (id ==R.id.action_settings){
-            Log.e(LOG_TAG, "action_settings selected");
-            Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(settingsIntent);
-            return true;
-            }
-           return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.earthquake_activity);
+        mainToolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(mainToolbar);
+
 
         listLoadingMessageView = findViewById(R.id.list_loading_message_view);
         listProgressBar = findViewById(R.id.list_progress_bar);
         listEmptyView = findViewById(R.id.list_empty_view);
-        mainSpinner = findViewById(R.id.spinner_view);
 
-        ArrayAdapter<String> spinnerAdaptor = new ArrayAdapter<String>(EarthquakeActivity.this, R.layout.spinner_text_layout, getResources().getStringArray(R.array.quake_type));
-        spinnerAdaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mainSpinner.setAdapter(spinnerAdaptor);
+        usgsRequestUrl = setCustomUrl();
+        refreshScreen();
+    }
 
-        mainSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mian, menu);
+
+        //setting up the spinner
+        MenuItem item = menu.findItem(R.id.action_qa);
+        qASpinner = (Spinner) item.getActionView();
+        ArrayAdapter<CharSequence> qAAdaptor = ArrayAdapter.createFromResource(this, R.array.quake_type, R.layout.spinner_text_layout);
+        qAAdaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        qASpinner.setAdapter(qAAdaptor);
+
+        qASpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 listEmptyView.setText(null);
@@ -129,15 +117,39 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
                         break;
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                usgsRequestUrl = getString(R.string.usgs_request_url_test);
+                // usgsRequestUrl = getString(R.string.usgs_request_url_test);
+                usgsRequestUrl = setCustomUrl();
                 refreshScreen();
             }
         });
+        // Setting up the spinner - end
+
+        return super.onCreateOptionsMenu(menu);
     }
 
-    public String setCustomUrl(){
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_qa:
+                Log.e(LOG_TAG, "action_qa selected");
+                return true;
+
+            case R.id.action_settings:
+                Log.e(LOG_TAG, "action_settings selected");
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    public String setCustomUrl() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(EarthquakeActivity.this);
         String minMagnitude = sharedPreferences.getString(
                 getString(R.string.settings_min_magnitude_key),
@@ -155,7 +167,9 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         usgsRequestUrlBuilder.append("&minmag=" + minMagnitude);
         usgsRequestUrlBuilder.append("&orderby=" + orderBy);
         return usgsRequestUrlBuilder.toString();
-       };
+    }
+
+    ;
 
     @Override
     public android.content.Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
