@@ -44,7 +44,6 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
     Toolbar mainToolbar;
-    Spinner mainSpinner;
     String usgsRequestUrl;
     TextView listLoadingMessageView;
     ProgressBar listProgressBar;
